@@ -1,11 +1,5 @@
-.babelrc
-.editorconfig
-.gitignore
-.npmignore
-.travis.yml
-coverage
+.*
 demo
-release.sh
-scripts
 src
 test
+dr.pogodin-css-modules-require-hook-*.tgz

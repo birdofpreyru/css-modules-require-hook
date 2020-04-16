@@ -21,9 +21,10 @@ suite('api/hashPrefix', () => {
   suite('using string pattern', () => {
     let tokens;
 
-    test('should return tokens with different hashes', () => assert.notDeepEqual(
-      samples
-    ));
+    test(
+      'should return tokens with different hashes',
+      () =>assert.notDeepEqual(samples, null),
+    );
 
     setup(() => {
       hook({generateScopedName: '[name]__[local]___[hash:base64:5]'});

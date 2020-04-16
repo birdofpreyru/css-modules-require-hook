@@ -1,6 +1,13 @@
-'use strict';
 
-const {assign, camelCase, reduce} = require('lodash');
+const { assign, camelCase, reduce } = require('lodash');
+
+/**
+ * @param  {string} str
+ * @return {string}
+ */
+function camelizeDashes(str) {
+  return str.replace(/-+(\w)/g, (m, letter) => letter.toUpperCase());
+}
 
 const camelizeKeys = (acc, value, key) => {
   const camelizedKey = camelCase(key);
@@ -28,36 +35,30 @@ const camelizeOnlyDashedKeys = (acc, value, key) => {
   return acc;
 };
 
-exports.camelizeDashes = camelizeDashes;
-exports.transformTokens = transformTokens;
-
-/**
- * @param  {string} str
- * @return {string}
- */
-function camelizeDashes(str) {
-  return str.replace(/-+(\w)/g, (m, letter) => letter.toUpperCase());
-}
-
 /**
  * @param  {object} tokens
- * @param  {boolean|string} camelCase 'dashes|dashesOnly|only'
+ * @param  {boolean|string} camelCaseArg 'dashes|dashesOnly|only'
  * @return {object}
  */
-function transformTokens(tokens, camelCase) {
-  switch (camelCase) {
-  case true:
-    return reduce(tokens, camelizeKeys, assign({}, tokens));
+function transformTokens(tokens, camelCaseArg) {
+  switch (camelCaseArg) {
+    case true:
+      return reduce(tokens, camelizeKeys, assign({}, tokens));
 
-  case 'dashes':
-    return reduce(tokens, camelizeDashedKeys, assign({}, tokens));
+    case 'dashes':
+      return reduce(tokens, camelizeDashedKeys, assign({}, tokens));
 
-  case 'dashesOnly':
-    return reduce(tokens, camelizeOnlyDashedKeys, {});
+    case 'dashesOnly':
+      return reduce(tokens, camelizeOnlyDashedKeys, {});
 
-  case 'only':
-    return reduce(tokens, camelizeOnlyKeys, {});
+    case 'only':
+      return reduce(tokens, camelizeOnlyKeys, {});
+
+    default:
   }
 
   return tokens;
 }
+
+exports.camelizeDashes = camelizeDashes;
+exports.transformTokens = transformTokens;
