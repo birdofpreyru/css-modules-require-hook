@@ -1,4 +1,3 @@
-'use strict';
 
 const {
   difference,
@@ -44,14 +43,11 @@ const tests = {
 
 module.exports = function validate(options) {
   const unknownOptions = difference(keys(options), keys(rules));
-  if (unknownOptions.length)
-    throw new Error(`unknown arguments: ${unknownOptions.join(', ')}.`);
+  if (unknownOptions.length) throw new Error(`unknown arguments: ${unknownOptions.join(', ')}.`);
 
   forEach(rules, (types, rule) => {
-    if (typeof options[rule] === 'undefined')
-      return;
+    if (typeof options[rule] === 'undefined') return;
 
-    if (!types.split('|').some(type => tests[type](options[rule])))
-      throw new TypeError(`should specify ${types} as ${rule}`);
+    if (!types.split('|').some((type) => tests[type](options[rule]))) throw new TypeError(`should specify ${types} as ${rule}`);
   });
 };

@@ -1,14 +1,10 @@
-'use strict';
 
-const {assign, identity, negate} = require('lodash');
-const {dirname, relative, resolve} = require('path');
-const {readFileSync} = require('fs');
-const {transformTokens} = require('./transformTokens');
+const { assign, identity, negate } = require('lodash');
+const { dirname, relative, resolve } = require('path');
+const { readFileSync } = require('fs');
 
-const attachHook = require('./attachHook');
 const genericNames = require('generic-names');
 const globToRegex = require('glob-to-regexp');
-const validate = require('./validate');
 
 const postcss = require('postcss');
 const Values = require('postcss-modules-values');
@@ -19,27 +15,53 @@ const ResolveImports = require('postcss-modules-resolve-imports');
 
 const debugFetch = require('debug')('css-modules:fetch');
 const debugSetup = require('debug')('css-modules:setup');
+const validate = require('./validate');
+const attachHook = require('./attachHook');
+const { transformTokens } = require('./transformTokens');
 
-module.exports = function setupHook({
-  camelCase,
-  devMode,
-  extensions = '.css',
-  ignore,
-  preprocessCss = identity,
-  processCss,
-  processorOpts,
-  append = [],
-  prepend = [],
-  createImportedName,
-  generateScopedName,
-  hashPrefix,
-  mode,
-  resolve: resolveOpts,
-  use,
-  rootDir: context = process.cwd(),
-}) {
-  debugSetup(arguments[0]);
-  validate(arguments[0]);
+/**
+ * @param  {*} option
+ * @return {array}
+ */
+function toArray(option) {
+  return Array.isArray(option)
+    ? option
+    : [option];
+}
+
+/**
+ * @param  {function|regex|string} ignore glob, regex or function
+ * @return {function}
+ */
+function buildExceptionChecker(ignore) {
+  if (ignore instanceof RegExp) return (filepath) => ignore.test(filepath);
+
+  if (typeof ignore === 'string') return (filepath) => globToRegex(ignore).test(filepath);
+
+  return ignore || negate(identity);
+}
+
+module.exports = function setupHook(options) {
+  const {
+    camelCase,
+    devMode,
+    extensions = '.css',
+    ignore,
+    preprocessCss = identity,
+    processCss,
+    processorOpts,
+    append = [],
+    prepend = [],
+    createImportedName,
+    generateScopedName,
+    hashPrefix,
+    mode,
+    resolve: resolveOpts,
+    use,
+    rootDir: context = process.cwd(),
+  } = options;
+  debugSetup(options);
+  validate(options);
 
   const exts = toArray(extensions);
   const tokensByFile = {};
@@ -50,25 +72,30 @@ module.exports = function setupHook({
     : process.env.NODE_ENV === 'development';
 
   let scopedName;
-  if (generateScopedName)
+  if (generateScopedName) {
     scopedName = typeof generateScopedName !== 'function'
-      ? genericNames(generateScopedName, {context, hashPrefix}) //  for example '[name]__[local]___[hash:base64:5]'
+      // for example '[name]__[local]___[hash:base64:5]'
+      ? genericNames(generateScopedName, { context, hashPrefix })
       : generateScopedName;
-  else
+  } else {
     // small fallback
-    scopedName = (local, filename) => Scope.generateScopedName(local, relative(context, filename));
+    scopedName = (local, filename) => Scope.generateScopedName(
+      local,
+      relative(context, filename),
+    );
+  }
 
   const plugins = use || [
     ...prepend,
     Values,
     mode
-      ? new LocalByDefault({mode})
+      ? new LocalByDefault({ mode })
       : LocalByDefault,
     createImportedName
-      ? new ExtractImports({createImportedName})
+      ? new ExtractImports({ createImportedName })
       : ExtractImports,
-    new Scope({generateScopedName: scopedName}),
-    new ResolveImports({resolve: Object.assign({}, {extensions: exts}, resolveOpts)}),
+    new Scope({ generateScopedName: scopedName }),
+    new ResolveImports({ resolve: { extensions: exts, ...resolveOpts } }),
     ...append,
   ];
 
@@ -97,22 +124,22 @@ module.exports = function setupHook({
 
     const source = preprocessCss(readFileSync(filename, 'utf8'), filename);
     // https://github.com/postcss/postcss/blob/master/docs/api.md#processorprocesscss-opts
-    const lazyResult = runner.process(source, assign({}, processorOpts, {from: filename}));
+    const lazyResult = runner.process(source, assign({}, processorOpts, { from: filename }));
 
     // https://github.com/postcss/postcss/blob/master/docs/api.md#lazywarnings
-    lazyResult.warnings().forEach(message => console.warn(message.text));
+    lazyResult.warnings().forEach((message) => console.warn(message.text));
 
     tokens = lazyResult.root.exports || {};
 
-    if (!debugMode)
+    if (!debugMode) {
       // updating cache
       tokensByFile[filename] = tokens;
-    else
+    } else {
       // clearing cache in development mode
       delete require.cache[filename];
+    }
 
-    if (processCss)
-      processCss(lazyResult.css, filename);
+    if (processCss) processCss(lazyResult.css, filename);
 
     debugFetch(`${filename} → fs`);
     debugFetch(tokens);
@@ -122,35 +149,11 @@ module.exports = function setupHook({
 
   const isException = buildExceptionChecker(ignore);
 
-  const hook = filename => {
+  const hook = (filename) => {
     const tokens = fetch(filename, filename);
     return camelCase ? transformTokens(tokens, camelCase) : tokens;
   };
 
   // @todo add possibility to specify particular config for each extension
-  exts.forEach(extension => attachHook(hook, extension, isException));
+  exts.forEach((extension) => attachHook(hook, extension, isException));
 };
-
-/**
- * @param  {*} option
- * @return {array}
- */
-function toArray(option) {
-  return Array.isArray(option)
-    ? option
-    : [option];
-}
-
-/**
- * @param  {function|regex|string} ignore glob, regex or function
- * @return {function}
- */
-function buildExceptionChecker(ignore) {
-  if (ignore instanceof RegExp)
-    return filepath => ignore.test(filepath);
-
-  if (typeof ignore === 'string')
-    return filepath => globToRegex(ignore).test(filepath);
-
-  return ignore || negate(identity);
-}

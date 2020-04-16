@@ -4,3 +4,4 @@ lib
 node_modules
 npm-debug.log*
 yarn.lock
+/dr.pogodin-css-modules-require-hook-*.tgz

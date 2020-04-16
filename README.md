@@ -1,5 +1,12 @@
-css-modules-require-hook
-========================
+![Master Build Status](https://img.shields.io/circleci/project/github/birdofpreyru/css-modules-require-hook/master.svg?label=master)
+![Dev Build Status](https://img.shields.io/circleci/project/github/birdofpreyru/css-modules-require-hook/develop.svg?label=dev)
+![Latest NPM Release](https://img.shields.io/npm/v/@dr.pogodin/css-modules-require-hook.svg)
+![NPM Downloads](https://img.shields.io/npm/dm/@dr.pogodin/css-modules-require-hook.svg)
+
+# css-modules-require-hook
+
+_A fork of [css-modules-require-hook](https://www.npmjs.com/package/css-modules-require-hook)
+upgraded to rely on up-to-date dependencies, and with some issues fixed._
 
 The require hook compiles [CSS Modules](https://github.com/css-modules/css-modules) in runtime. This is similar to Babel's [babel/register](https://babeljs.io/docs/usage/require/). See the example: [demo](demo).
 
