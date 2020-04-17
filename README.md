@@ -3,7 +3,7 @@
 ![Latest NPM Release](https://img.shields.io/npm/v/@dr.pogodin/css-modules-require-hook.svg)
 ![NPM Downloads](https://img.shields.io/npm/dm/@dr.pogodin/css-modules-require-hook.svg)
 
-# css-modules-require-hook
+# CSS Modules Require Hook
 
 _A fork of [css-modules-require-hook](https://www.npmjs.com/package/css-modules-require-hook)
 upgraded to rely on up-to-date dependencies, and with some issues fixed._
@@ -26,7 +26,7 @@ To use this tool we require [Node.js v0.12.x](https://github.com/nodejs/node) (o
 ## Installation
 
 ```bash
-$ npm i css-modules-require-hook
+$ npm install @dr.pogodin/css-modules-require-hook
 ```
 
 ## Usage
@@ -36,7 +36,7 @@ Now, there are two ways to attach hook: manually or using preset file.
 The first one allows you to pass options manually after module was required. Example:
 
 ```javascript
-const hook = require('css-modules-require-hook');
+const hook = require('@dr.pogodin/css-modules-require-hook');
 
 hook({
   generateScopedName: '[name]__[local]___[hash:base64:5]',
@@ -45,7 +45,7 @@ hook({
 // const styles = require('./icon.css');
 ```
 
-The second one allows you to move options to the separate file `cmrh.conf.js`. Config file should be located in the same directory where executor is or in its ancestor directories. In that case hook will be attached right after the `css-modules-require-hook/preset` module will be required. Example:
+The second one allows you to move options to the separate file `cmrh.conf.js`. Config file should be located in the same directory where executor is or in its ancestor directories. In that case hook will be attached right after the `@dr.pogodin/css-modules-require-hook/preset` module will be required. Example:
 
 ```javascript
 // cmrh.conf.js
@@ -55,19 +55,19 @@ module.exports = {
 ```
 
 ```javascript
-require('css-modules-require-hook/preset');
+require('@dr.pogodin/css-modules-require-hook/preset');
 
 // const styles = require('./icon.css');
 ```
 
 
 ### Using with babel-node / ES6 Imports
-You will need to create a `cmrh.conf.js` file within the directory as you are importing `css-modules-require-hook`.
+You will need to create a `cmrh.conf.js` file within the directory as you are importing `@dr.pogodin/css-modules-require-hook`.
 
 
 ```javascript
 // server.js
-import csshook from 'css-modules-require-hook/preset' // import hook before routes
+import csshook from '@dr.pogodin/css-modules-require-hook/preset' // import hook before routes
 import routes from '/shared/views/routes'
 
 // create server, etc
@@ -96,7 +96,7 @@ Still you can use `devMode` option (see below) to override behavior which is imp
 ### Adding custom PostCSS plugins
 
 ```javascript
-var hook = require('css-modules-require-hook');
+var hook = require('@dr.pogodin/css-modules-require-hook');
 var cssnext = require('cssnext');
 
 hook({
@@ -110,7 +110,7 @@ hook({
 ### Specify custom pattern to build generic names
 
 ```javascript
-var hook = require('css-modules-require-hook');
+var hook = require('@dr.pogodin/css-modules-require-hook');
 
 hook({
   generateScopedName: '[name]__[local]___[hash:base64:5]',
@@ -120,7 +120,7 @@ hook({
 ### Using Stylus as a preprocessor
 
 ```javascript
-var hook = require('css-modules-require-hook');
+var hook = require('@dr.pogodin/css-modules-require-hook');
 var stylus = require('stylus');
 
 hook({
@@ -140,7 +140,7 @@ hook({
 To adjust the require hook you need to provide params to the exported function.
 
 ```javascript
-var hook = require('css-modules-require-hook');
+var hook = require('@dr.pogodin/css-modules-require-hook');
 
 hook({
   // append: [],
@@ -204,7 +204,7 @@ hook({
 Provides possibility to pass custom options to the [LazyResult instance](https://github.com/postcss/postcss/blob/master/docs/api.md#processorprocesscss-opts). It can be usefull if you want to set the custom parser, for example: [postcss-less](https://github.com/gilt/postcss-less).
 
 ```javascript
-const hook = require('css-modules-require-hook');
+const hook = require('@dr.pogodin/css-modules-require-hook');
 const lessParser = require('postcss-less').parse;
 
 hook({
