@@ -63,6 +63,25 @@ module.exports = function setupHook(options) {
   debugSetup(options);
   validate(options);
 
+  /* An attempt to fix
+   * https://github.com/css-modules/css-modules-require-hook/issues/115
+   */
+  const processCssQueue = [];
+  const processCssPlugin = processCss && postcss.plugin('process-css-plugin', () => (
+    (root) => {
+      const tree = root.clone();
+      tree.walkRules((rule) => {
+        if (rule.selector && (rule.selector.match(/^:(export|import)/))) {
+          rule.remove();
+        }
+      });
+      processCssQueue.push({
+        css: tree.toString(),
+        file: tree.source.input.file,
+      });
+    }
+  ));
+
   const exts = toArray(extensions);
   const tokensByFile = {};
 
@@ -85,19 +104,25 @@ module.exports = function setupHook(options) {
     );
   }
 
-  const plugins = use || [
-    ...prepend,
-    Values,
-    mode
-      ? new LocalByDefault({ mode })
-      : LocalByDefault,
-    createImportedName
-      ? new ExtractImports({ createImportedName })
-      : ExtractImports,
-    new Scope({ generateScopedName: scopedName }),
-    new ResolveImports({ resolve: { extensions: exts, ...resolveOpts } }),
-    ...append,
-  ];
+  let plugins = use;
+  if (!plugins) {
+    plugins = [
+      ...prepend,
+      Values,
+      mode
+        ? new LocalByDefault({ mode })
+        : LocalByDefault,
+      createImportedName
+        ? new ExtractImports({ createImportedName })
+        : ExtractImports,
+      new Scope({ generateScopedName: scopedName }),
+    ];
+    if (processCssPlugin) plugins.push(processCssPlugin);
+    plugins.push(
+      new ResolveImports({ resolve: { extensions: exts, ...resolveOpts } }),
+      ...append,
+    );
+  }
 
   // https://github.com/postcss/postcss#options
   const runner = postcss(plugins);
@@ -139,7 +164,10 @@ module.exports = function setupHook(options) {
       delete require.cache[filename];
     }
 
-    if (processCss) processCss(lazyResult.css, filename);
+    if (processCss) {
+      processCssQueue.reverse();
+      processCssQueue.forEach(({ css, file }) => processCss(css, file));
+    }
 
     debugFetch(`${filename} → fs`);
     debugFetch(tokens);
