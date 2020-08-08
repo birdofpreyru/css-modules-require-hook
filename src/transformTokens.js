@@ -1,4 +1,3 @@
-
 const { assign, camelCase, reduce } = require('lodash');
 
 /**
