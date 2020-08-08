@@ -1,9 +1,9 @@
-
 const { assign, identity, negate } = require('lodash');
 const { dirname, relative, resolve } = require('path');
 const { readFileSync } = require('fs');
 
-const genericNames = require('generic-names');
+const { getModulesOptions } = require('css-loader/dist/utils');
+
 const globToRegex = require('glob-to-regexp');
 
 const postcss = require('postcss');
@@ -18,6 +18,12 @@ const debugSetup = require('debug')('css-modules:setup');
 const validate = require('./validate');
 const attachHook = require('./attachHook');
 const { transformTokens } = require('./transformTokens');
+
+// As of now CSS loader does not export its default getLocalIdent(..) function,
+// which we need to generate the classnames. However, this goofy way to get it
+// works fine. If one day internal changes in css-loader break this workaround,
+// it will be necessary just to commit them a patch which exports the function.
+const { getLocalIdent } = getModulesOptions({ modules: true }, {});
 
 /**
  * @param  {*} option
@@ -54,7 +60,7 @@ module.exports = function setupHook(options) {
     prepend = [],
     createImportedName,
     generateScopedName,
-    hashPrefix,
+    hashPrefix = '',
     mode,
     resolve: resolveOpts,
     use,
@@ -94,8 +100,12 @@ module.exports = function setupHook(options) {
   if (generateScopedName) {
     scopedName = typeof generateScopedName !== 'function'
       // for example '[name]__[local]___[hash:base64:5]'
-      ? genericNames(generateScopedName, { context, hashPrefix })
-      : generateScopedName;
+      ? (className, resourcePath) => getLocalIdent(
+        { resourcePath },
+        generateScopedName,
+        className,
+        { context, hashPrefix },
+      ) : generateScopedName;
   } else {
     // small fallback
     scopedName = (local, filename) => Scope.generateScopedName(

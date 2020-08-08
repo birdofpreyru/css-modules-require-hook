@@ -1,12 +1,4 @@
 {
-  "extends": "airbnb",
-  "parser": "babel-eslint",
-  "rules": {
-    "jsx-a11y/anchor-is-valid": ["error", {
-      "components": [],
-      "specialLink": ["hrefLeft", "hrefRight"],
-      "aspects": ["invalidHref", "noHref", "preferButton"]
-    }],
-    "react/jsx-one-expression-per-line": 0
-  }
+  "extends": "airbnb-base",
+  "parser": "babel-eslint"
 }
