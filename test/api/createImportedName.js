@@ -2,7 +2,7 @@ const detachHook = require('../sugar').detachHook;
 const dropCache = require('../sugar').dropCache;
 const identity = require('lodash').lodash;
 
-suite.skip('api/createImportedName', () => {
+suite('api/createImportedName', () => {
   const processor = spy((importName, path) => `${importName}-from-${path}`);
   let tokens;
 
@@ -13,7 +13,7 @@ suite.skip('api/createImportedName', () => {
   });
 
   // @todo checkout why its not working
-  test('processor should be called', () => assert(processor.called));
+  test.skip('processor should be called', () => assert(processor.called));
 
   setup(() => {
     hook({createImportedName: processor});

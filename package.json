@@ -24,9 +24,6 @@
     "url": "https://github.com/birdofpreyru/css-modules-require-hook/issues"
   },
   "homepage": "https://dr.pogodin.studio",
-  "pre-commit": [
-    "lint"
-  ],
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.4",
@@ -38,7 +35,6 @@
     "eslint-plugin-import": "^2.22.0",
     "mocha": "^8.1.1",
     "postcss-less": "^3.1.4",
-    "pre-commit": "^1.2.2",
     "sinon": "^9.0.3"
   },
   "dependencies": {
