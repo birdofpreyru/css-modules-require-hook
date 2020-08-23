@@ -4,7 +4,7 @@
   "description": "A require hook to compile CSS Modules on the fly",
   "main": "lib/index.js",
   "engines": {
-    "node": "^12.16.2"
+    "node": ">=10"
   },
   "repository": {
     "type": "git",
