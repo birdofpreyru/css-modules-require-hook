@@ -1,6 +1,6 @@
 {
   "name": "@dr.pogodin/css-modules-require-hook",
-  "version": "4.4.0",
+  "version": "4.4.1",
   "description": "A require hook to compile CSS Modules on the fly",
   "main": "lib/index.js",
   "engines": {
@@ -29,24 +29,24 @@
   ],
   "devDependencies": {
     "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.11.1",
+    "@babel/core": "^7.11.4",
     "@babel/preset-env": "^7.11.0",
     "@babel/register": "^7.10.5",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.6.0",
+    "eslint": "^7.7.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "mocha": "^8.1.1",
     "postcss-less": "^3.1.4",
     "pre-commit": "^1.2.2",
-    "sinon": "^9.0.2"
+    "sinon": "^9.0.3"
   },
   "dependencies": {
     "css-loader": "^4.2.1",
     "debug": "^4.1.1",
     "glob-to-regexp": "^0.4.1",
     "icss-replace-symbols": "^1.0.2",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.20",
     "postcss": "^7.0.32",
     "postcss-modules-extract-imports": "^2.0.0",
     "postcss-modules-local-by-default": "^3.0.3",
