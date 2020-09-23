@@ -1,8 +1,8 @@
-const basename = require('path').basename;
-const detachHook = require('../sugar').detachHook;
-const readdirSync = require('fs').readdirSync;
-const readFileSync = require('fs').readFileSync;
-const resolve = require('path').resolve;
+const { basename } = require('path');
+const { readdirSync } = require('fs');
+const { readFileSync } = require('fs');
+const { resolve } = require('path');
+const { detachHook } = require('../sugar');
 
 /**
  * @param {string} testCase
@@ -26,7 +26,7 @@ function describeTest(testCase) {
  */
 function readdir(dir) {
   return readdirSync(resolve(__dirname, dir))
-    .map(nesteddir => resolve(__dirname, dir, nesteddir));
+    .map((nesteddir) => resolve(__dirname, dir, nesteddir));
 }
 
 /**
@@ -36,7 +36,7 @@ function readdir(dir) {
 function readfile(file) {
   try {
     return readFileSync(resolve.apply(null, arguments), 'utf8');
-  } catch(e) {
+  } catch (e) {
     return null;
   }
 }

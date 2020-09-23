@@ -4,7 +4,7 @@ import Title from './Title';
 
 import styles from './Page.css';
 
-export default _ => (
+export default (_) => (
   <html lang='en'>
     <head>
       <title>Universal demo</title>

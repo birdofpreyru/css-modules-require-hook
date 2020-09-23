@@ -1,5 +1,5 @@
-const {detachHook, dropCache} = require('../sugar');
 const path = require('path');
+const { detachHook, dropCache } = require('../sugar');
 
 suite('api/resolve', () => {
   test('should be called', () => {
@@ -11,9 +11,11 @@ suite('api/resolve', () => {
   });
 
   setup(() => {
-    hook({resolve: {
-      modules: [path.join(__dirname, 'fixture')],
-    }});
+    hook({
+      resolve: {
+        modules: [path.join(__dirname, 'fixture')],
+      },
+    });
   });
 
   teardown(() => {

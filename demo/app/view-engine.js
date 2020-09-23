@@ -1,7 +1,5 @@
-'use strict';
-
 const babel = require('babel-core/register');
-const forEach = require('lodash').forEach;
+const { forEach } = require('lodash');
 const React = require('react');
 const ReactDOM = require('react-dom/server');
 
@@ -23,9 +21,9 @@ module.exports = function viewEngine(file, opts, cb) {
   let markup = doctype;
 
   try {
-    let component = require(file).default;
+    const component = require(file).default;
     markup += ReactDOM.renderToStaticMarkup(
-      React.createElement(component, opts)
+      React.createElement(component, opts),
     );
   } catch (e) {
     dropCache(opts.settings.views);

@@ -1,6 +1,6 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
-const identity = require('lodash').identity;
+const { identity } = require('lodash');
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 
 suite('api/processCss()', () => {
   const processCss = spy(identity);
@@ -8,7 +8,7 @@ suite('api/processCss()', () => {
   test('should be called', () => assert(processCss.called));
 
   setup(() => {
-    hook({processCss});
+    hook({ processCss });
     require('./fixture/oceanic.css');
   });
 

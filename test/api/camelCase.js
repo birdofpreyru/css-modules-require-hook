@@ -1,5 +1,5 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 
 suite('api/camelCase', () => {
   suite('-> `true`', () => {
@@ -23,11 +23,11 @@ suite('api/camelCase', () => {
     test('should replace keys with dashes by its camel-cased equivalent', () => {
       const tokens = require('./fixture/bem.css');
       assert.deepEqual(tokens, {
-        'block__elementModifier': '_test_api_fixture_bem__block__element--modifier',
+        block__elementModifier: '_test_api_fixture_bem__block__element--modifier',
       });
     });
 
-    setup(() => hook({camelCase: 'dashesOnly'}));
+    setup(() => hook({ camelCase: 'dashesOnly' }));
 
     teardown(() => {
       detachHook('.css');

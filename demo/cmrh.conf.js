@@ -1,4 +1,4 @@
-const config = require('./package').config;
+const { config } = require('./package');
 
 module.exports = {
   // the custom template for the generic classes

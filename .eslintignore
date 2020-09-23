@@ -1,0 +1,7 @@
+/lib
+
+# These were not linted in the original code. After resolving most of ESLint
+# complaints, the remaining lint issues in demo and tests are not worth to spent
+# time on, thus ignoring them for time being.
+/demo
+/test

@@ -1,6 +1,6 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
-const join = require('path').join;
+const { join } = require('path');
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 
 suite('api/rootDir', () => {
   suite('should change the way in which tokens are generated', () => {
@@ -10,11 +10,11 @@ suite('api/rootDir', () => {
     test('should return different tokens', () => assert.notDeepEqual(tokens1, tokens2));
 
     setup(() => {
-      hook({rootDir: join(__dirname, '../../')});
+      hook({ rootDir: join(__dirname, '../../') });
       tokens1 = require('./fixture/oceanic.css');
       dropCache('./api/fixture/oceanic.css');
 
-      hook({rootDir: __dirname});
+      hook({ rootDir: __dirname });
       tokens2 = require('./fixture/oceanic.css');
     });
 

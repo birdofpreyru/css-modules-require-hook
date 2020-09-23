@@ -1,10 +1,8 @@
-'use strict';
-
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const NpmInstallPlugin = require('npm-install-webpack-plugin');
-const resolve = require('path').resolve;
+const { resolve } = require('path');
 
-const config = require('./package').config;
+const { config } = require('./package');
 
 module.exports = {
   entry: resolve('components/Page.js'),

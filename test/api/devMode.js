@@ -1,11 +1,11 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
-const resolve = require('path').resolve;
-const writeFileSync = require('fs').writeFileSync;
+const { resolve } = require('path');
+const { writeFileSync } = require('fs');
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 
 const destination = resolve(__dirname, './fixture/oceanic.css');
-const source1 = `.color\n{\n  background: #1e2a35;\n}\n`;
-const source2 = `.awesome-color\n{\n  background: #1e2a35;\n}\n`;
+const source1 = '.color\n{\n  background: #1e2a35;\n}\n';
+const source2 = '.awesome-color\n{\n  background: #1e2a35;\n}\n';
 
 suite('api/devMode', () => {
   suite('shouldn`t calls cache in development mode', () => {
@@ -20,7 +20,7 @@ suite('api/devMode', () => {
 
       setup(() => {
         process.env.NODE_ENV = 'development';
-        hook({devMode: false});
+        hook({ devMode: false });
         writeFile(source1);
         require('./fixture/oceanic.css');
         writeFile(source2);
@@ -60,7 +60,7 @@ suite('api/devMode', () => {
       });
 
       setup(() => {
-        hook({devMode: true});
+        hook({ devMode: true });
         writeFile(source1);
         require('./fixture/oceanic.css');
         writeFile(source2);

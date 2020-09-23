@@ -1,5 +1,5 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 const identity = require('lodash').lodash;
 
 suite('api/mode', () => {
@@ -8,7 +8,7 @@ suite('api/mode', () => {
     assert.deepEqual(tokens, {});
   });
 
-  setup(() => hook({mode: 'global'}));
+  setup(() => hook({ mode: 'global' }));
 
   teardown(() => {
     detachHook('.css');

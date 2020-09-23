@@ -1,10 +1,9 @@
-'use strict';
-
 const express = require('express');
 const path = require('path');
 const viewEngine = require('./view-engine');
 
-const config = require('../package').config;
+const { config } = require('../package');
+
 const app = express();
 
 // sets react rendering engine
@@ -17,4 +16,4 @@ app.use(express.static(path.join(__dirname, '../static')));
 
 app.get('/', (req, res) => res.render('Page'));
 
-app.listen(config.port, _ => console.log(`listening ${config.port}`));
+app.listen(config.port, (_) => console.log(`listening ${config.port}`));

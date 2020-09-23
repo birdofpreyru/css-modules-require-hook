@@ -1,7 +1,7 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 const identity = require('lodash').lodash;
-const resolve = require('path').resolve;
+const { resolve } = require('path');
 
 suite('api/generateScopedName', () => {
   suite('using function', () => {
@@ -32,7 +32,7 @@ suite('api/generateScopedName', () => {
     });
 
     setup(() => {
-      hook({generateScopedName: processor});
+      hook({ generateScopedName: processor });
       tokens = require('./fixture/oceanic.css');
     });
   });
@@ -45,7 +45,7 @@ suite('api/generateScopedName', () => {
     }));
 
     setup(() => {
-      hook({generateScopedName: '[name]__[local]___[hash:base64:5]'});
+      hook({ generateScopedName: '[name]__[local]___[hash:base64:5]' });
       tokens = require('./fixture/oceanic.css');
     });
   });

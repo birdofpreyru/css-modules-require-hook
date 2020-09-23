@@ -1,7 +1,7 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 const identity = require('lodash').lodash;
-const Through = require('../sugar').Through;
+const { Through } = require('../sugar');
 
 suite('api/prepend', () => {
   suite('should add plugins to the pipeline', () => {
@@ -10,7 +10,7 @@ suite('api/prepend', () => {
     test('plugin should be called', () => assert(processor.called));
 
     setup(() => {
-      hook({prepend: [new Through(processor)]});
+      hook({ prepend: [new Through(processor)] });
       require('./fixture/oceanic.css');
     });
 

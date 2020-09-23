@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
   plugins: [
     // small sugar for CSS

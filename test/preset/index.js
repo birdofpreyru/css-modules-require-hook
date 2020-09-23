@@ -1,5 +1,5 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 
 suite('css-modules-require-hook/preset', () => {
   suite('using cmrh.conf.js file', () => {

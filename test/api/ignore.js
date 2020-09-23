@@ -1,5 +1,5 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 
 suite('api/ignore', () => {
   suite('glob', () => {
@@ -20,7 +20,7 @@ suite('api/ignore', () => {
 
   suite('function', () => {
     setup(() => hook({
-      ignore: filename => /typography/.test(filename),
+      ignore: (filename) => /typography/.test(filename),
     }));
 
     test('should return tokens', () => {

@@ -1,6 +1,6 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
-const identity = require('lodash').identity;
+const { identity } = require('lodash');
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 
 suite('api/extensions', () => {
   suite('uses .css by default', () => {
@@ -23,7 +23,7 @@ suite('api/extensions', () => {
       assert(tokens);
     });
 
-    setup(() => hook({extensions: '.css'}));
+    setup(() => hook({ extensions: '.css' }));
 
     teardown(() => {
       detachHook('.css');
@@ -42,7 +42,7 @@ suite('api/extensions', () => {
       assert(tokens);
     });
 
-    setup(() => hook({extensions: ['.css', '.scss']}));
+    setup(() => hook({ extensions: ['.css', '.scss'] }));
 
     teardown(() => {
       detachHook('.css');

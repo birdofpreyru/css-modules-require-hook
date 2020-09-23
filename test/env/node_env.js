@@ -1,11 +1,11 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
-const resolve = require('path').resolve;
-const writeFileSync = require('fs').writeFileSync;
+const { resolve } = require('path');
+const { writeFileSync } = require('fs');
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 
 const destination = resolve(__dirname, './fixture/oceanic.css');
-const source1 = `.color\n{\n  background: #1e2a35;\n}\n`;
-const source2 = `.awesome-color\n{\n  background: #1e2a35;\n}\n`;
+const source1 = '.color\n{\n  background: #1e2a35;\n}\n';
+const source2 = '.awesome-color\n{\n  background: #1e2a35;\n}\n';
 
 suite('env.NODE_ENV', () => {
   suite('in the development mode', () => {
@@ -38,7 +38,7 @@ suite('env.NODE_ENV', () => {
       const tokens = require('./fixture/oceanic.css');
 
       assert.deepEqual(tokens, {
-        'color': '_test_env_fixture_oceanic__color',
+        color: '_test_env_fixture_oceanic__color',
       });
     });
 

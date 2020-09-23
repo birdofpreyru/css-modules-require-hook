@@ -1,5 +1,5 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 const identity = require('lodash').lodash;
 
 suite('api/createImportedName', () => {
@@ -16,7 +16,7 @@ suite('api/createImportedName', () => {
   test.skip('processor should be called', () => assert(processor.called));
 
   setup(() => {
-    hook({createImportedName: processor});
+    hook({ createImportedName: processor });
     tokens = require('./fixture/oceanic.css');
   });
 

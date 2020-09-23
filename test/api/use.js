@@ -1,7 +1,7 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 const identity = require('lodash').lodash;
-const Through = require('../sugar').Through;
+const { Through } = require('../sugar');
 
 suite('api/use', () => {
   suite('should replace plugins in the pipeline', () => {
@@ -14,7 +14,7 @@ suite('api/use', () => {
     });
 
     setup(() => {
-      hook({use: [new Through(processor)]});
+      hook({ use: [new Through(processor)] });
       tokens = require('./fixture/oceanic.css');
     });
 

@@ -1,6 +1,6 @@
-const detachHook = require('../sugar').detachHook;
-const dropCache = require('../sugar').dropCache;
-const identity = require('lodash').identity;
+const { identity } = require('lodash');
+const { detachHook } = require('../sugar');
+const { dropCache } = require('../sugar');
 
 const lessParser = require('postcss-less').parse;
 
@@ -8,13 +8,13 @@ const lessParser = require('postcss-less').parse;
 suite('api/processorOpts()', () => {
   test('should provide possibility to specify custom processor options, for example: parser', () => {
     const tokens = require('./fixture/oceanic.less');
-    assert.deepEqual(tokens, {color: '_test_api_fixture_oceanic__color'});
+    assert.deepEqual(tokens, { color: '_test_api_fixture_oceanic__color' });
   });
 
   setup(() => {
     hook({
       extensions: '.less',
-      processorOpts: {parser: lessParser},
+      processorOpts: { parser: lessParser },
     });
   });
 
