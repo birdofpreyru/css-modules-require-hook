@@ -11,7 +11,7 @@ const Values = require('postcss-modules-values');
 const LocalByDefault = require('postcss-modules-local-by-default');
 const ExtractImports = require('postcss-modules-extract-imports');
 const Scope = require('postcss-modules-scope');
-const ResolveImports = require('postcss-modules-resolve-imports');
+const ResolveImports = require('@dr.pogodin/postcss-modules-resolve-imports');
 
 const debugFetch = require('debug')('css-modules:fetch');
 const debugSetup = require('debug')('css-modules:setup');
