@@ -10,7 +10,7 @@ suite('api/prepend', () => {
     test('plugin should be called', () => assert(processor.called));
 
     setup(() => {
-      hook({ prepend: [new Through(processor)] });
+      hook({ prepend: [Through(processor)] });
       require('./fixture/oceanic.css');
     });
 

@@ -10,7 +10,7 @@ suite('api/append', () => {
     test('plugin should be called', () => assert(processor.called));
 
     setup(() => {
-      hook({ append: [new Through(processor)] });
+      hook({ append: [Through(processor)] });
       require('./fixture/oceanic.css');
     });
 

@@ -1,5 +1,3 @@
-const { plugin } = require('postcss');
-
 /**
  * Drops require cache for the certain module
  *
@@ -16,7 +14,11 @@ function detachHook(extension) {
   delete require.extensions[extension];
 }
 
-const Through = plugin('through', (processor) => (css) => processor(css));
+const Through =  (processor) => ({
+  postcssPlugin: 'through',
+  Root: (css) => processor(css),
+});
+Through.postcss = true;
 
 exports.dropCache = dropCache;
 exports.detachHook = detachHook;

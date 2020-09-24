@@ -73,20 +73,24 @@ module.exports = function setupHook(options) {
    * https://github.com/css-modules/css-modules-require-hook/issues/115
    */
   const processCssQueue = [];
-  const processCssPlugin = processCss && postcss.plugin('process-css-plugin', () => (
-    (root) => {
-      const tree = root.clone();
-      tree.walkRules((rule) => {
-        if (rule.selector && (rule.selector.match(/^:(export|import)/))) {
-          rule.remove();
-        }
-      });
-      processCssQueue.push({
-        css: tree.toString(),
-        file: tree.source.input.file,
-      });
-    }
-  ));
+  const processCssPlugin = processCss && (
+    () => ({
+      postcssPlugin: 'process-css-plugin',
+      Root: (root) => {
+        const tree = root.clone();
+        tree.walkRules((rule) => {
+          if (rule.selector && (rule.selector.match(/^:(export|import)/))) {
+            rule.remove();
+          }
+        });
+        processCssQueue.push({
+          css: tree.toString(),
+          file: tree.source.input.file,
+        });
+      },
+    })
+  );
+  if (processCssPlugin) processCssPlugin.postcss = true;
 
   const exts = toArray(extensions);
   const tokensByFile = {};

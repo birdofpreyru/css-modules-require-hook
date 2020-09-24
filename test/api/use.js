@@ -14,7 +14,7 @@ suite('api/use', () => {
     });
 
     setup(() => {
-      hook({ use: [new Through(processor)] });
+      hook({ use: [Through(processor)] });
       tokens = require('./fixture/oceanic.css');
     });
 
