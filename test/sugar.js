@@ -16,7 +16,7 @@ function detachHook(extension) {
 
 const Through =  (processor) => ({
   postcssPlugin: 'through',
-  Root: (css) => processor(css),
+  Once: (css) => processor(css),
 });
 Through.postcss = true;
 

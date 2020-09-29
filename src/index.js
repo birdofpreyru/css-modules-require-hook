@@ -76,7 +76,7 @@ module.exports = function setupHook(options) {
   const processCssPlugin = processCss && (
     () => ({
       postcssPlugin: 'process-css-plugin',
-      Root: (root) => {
+      Once: (root) => {
         const tree = root.clone();
         tree.walkRules((rule) => {
           if (rule.selector && (rule.selector.match(/^:(export|import)/))) {
