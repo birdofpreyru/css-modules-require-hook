@@ -2,8 +2,6 @@ const { assign, identity, negate } = require('lodash');
 const { dirname, relative, resolve } = require('path');
 const { readFileSync } = require('fs');
 
-const { getModulesOptions } = require('css-loader/dist/utils');
-
 const globToRegex = require('glob-to-regexp');
 
 const postcss = require('postcss');
@@ -15,15 +13,12 @@ const ResolveImports = require('@dr.pogodin/postcss-modules-resolve-imports');
 
 const debugFetch = require('debug')('css-modules:fetch');
 const debugSetup = require('debug')('css-modules:setup');
+
+const getGenerateScopedName = require('./getGenerateScopedName');
+
 const validate = require('./validate');
 const attachHook = require('./attachHook');
 const { transformTokens } = require('./transformTokens');
-
-// As of now CSS loader does not export its default getLocalIdent(..) function,
-// which we need to generate the classnames. However, this goofy way to get it
-// works fine. If one day internal changes in css-loader break this workaround,
-// it will be necessary just to commit them a patch which exports the function.
-const { getLocalIdent } = getModulesOptions({ modules: true }, {});
 
 /**
  * @param  {*} option
@@ -59,7 +54,6 @@ module.exports = function setupHook(options) {
     append = [],
     prepend = [],
     createImportedName,
-    generateScopedName,
     hashPrefix = '',
     mode,
     resolve: resolveOpts,
@@ -100,19 +94,13 @@ module.exports = function setupHook(options) {
     ? devMode
     : process.env.NODE_ENV === 'development';
 
-  let scopedName;
-  if (generateScopedName) {
-    scopedName = typeof generateScopedName !== 'function'
-      // for example '[name]__[local]___[hash:base64:5]'
-      ? (className, resourcePath) => getLocalIdent(
-        { resourcePath },
-        generateScopedName,
-        className,
-        { context, hashPrefix },
-      ) : generateScopedName;
-  } else {
-    // small fallback
-    scopedName = (local, filename) => Scope.generateScopedName(
+  let { generateScopedName } = options;
+  if (typeof generateScopedName !== 'function') {
+    generateScopedName = generateScopedName ? getGenerateScopedName(
+      context,
+      generateScopedName,
+      hashPrefix,
+    ) : (local, filename) => Scope.generateScopedName(
       local,
       relative(context, filename),
     );
@@ -129,7 +117,7 @@ module.exports = function setupHook(options) {
       createImportedName
         ? new ExtractImports({ createImportedName })
         : ExtractImports,
-      new Scope({ generateScopedName: scopedName }),
+      new Scope({ generateScopedName }),
     ];
     if (processCssPlugin) plugins.push(processCssPlugin);
     plugins.push(
