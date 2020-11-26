@@ -111,13 +111,9 @@ module.exports = function setupHook(options) {
     plugins = [
       ...prepend,
       Values,
-      mode
-        ? new LocalByDefault({ mode })
-        : LocalByDefault,
-      createImportedName
-        ? new ExtractImports({ createImportedName })
-        : ExtractImports,
-      new Scope({ generateScopedName }),
+      LocalByDefault({ mode }),
+      ExtractImports({ createImportedName }),
+      Scope({ generateScopedName }),
     ];
     if (processCssPlugin) plugins.push(processCssPlugin);
     plugins.push(
